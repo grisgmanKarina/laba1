@@ -1,11 +1,11 @@
 const EmployeeAPI = {
     employees: [
-      { number: 1, name: "Ivan Ivanov", job: "Student" },
-      { number: 2, name: "Karina Grishman", job: "Student" },
-      { number: 3, name: "Nikita Berniakovich", job: "Teacher" },
-      { number: 4, name: "Anastasia Lihachova", job: "Rector" },
-      { number: 5, name: "Pavel Petrovich", job: "Teacher" },
-      { number: 6, name: "Anastasia Kubasova", job: "Student" },
+      { number: 1, name: "Иван Иванов", phone: "+375295872381" },
+      { number: 2, name: "Никита Федоров", phone: "+375290873984" },
+      { number: 3, name: "Елизавета Исаченко", phone: "+375334762503" },
+      { number: 4, name: "Анна Ткачева", phone: "+375290365992" },
+      { number: 5, name: "Павел Сидоров", phone: "+375339812067" },
+      { number: 6, name: "Алина Дубровская", phone: "+375337812493" },
     ],
     all: function () {
       return this.employees;
