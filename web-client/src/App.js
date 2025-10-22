@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import EmployeeAPI from './api/service';
 import Table from './Table';
+import AddEmployeeForm from './AddEmployeeForm';
 
 function App() {
   const [employees, setEmployees] = useState(EmployeeAPI.all());
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
 
-  const addEmployee = () => {
-    if (name.trim() === '' || phone.trim() === '') return;
-    const newEmployee = { name, phone };
+  const addEmployee = (newEmployee) => {
     setEmployees([...employees, newEmployee]);
-    setName('');
-    setPhone('');
   };
 
   const removeEmployee = (indexToRemove) => {
@@ -21,25 +17,17 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h2>Колл-центр</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="Имя"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Контактный номер"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <button onClick={addEmployee}>Добавить</button>
+    <Router>
+      <div className="App">
+        <nav>
+          <Link to="/">Колл-центр</Link> | <Link to="/add">Добавить</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Table employees={employees} onRemove={removeEmployee} />} />
+          <Route path="/add" element={<AddEmployeeForm onAdd={addEmployee} />} />
+        </Routes>
       </div>
-      <Table employees={employees} onRemove={removeEmployee} />
-    </div>
+    </Router>
   );
 }
 
