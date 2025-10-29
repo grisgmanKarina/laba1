@@ -4,6 +4,8 @@ import './App.css';
 import EmployeeAPI from './api/service';
 import Table from './Table';
 import AddEmployeeForm from './AddEmployeeForm';
+import Login from './Login';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   const [employees, setEmployees] = useState(EmployeeAPI.all());
@@ -20,11 +22,26 @@ function App() {
     <Router>
       <div className="App">
         <nav>
-          <Link to="/">Колл-центр</Link> | <Link to="/add">Добавить</Link>
+          <Link to="/">Колл-центр</Link> | <Link to="/add">Добавить</Link> | <Link to="/login">Вход</Link>
         </nav>
         <Routes>
-          <Route path="/" element={<Table employees={employees} onRemove={removeEmployee} />} />
-          <Route path="/add" element={<AddEmployeeForm onAdd={addEmployee} />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Table employees={employees} onRemove={removeEmployee} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <PrivateRoute>
+                <AddEmployeeForm onAdd={addEmployee} />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
