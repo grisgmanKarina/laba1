@@ -1,17 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+// Redux: подключаем хранилище и провайдер
+import { Provider } from 'react-redux';
+import store from './store';
+
+// React Router: для маршрутизации
+import { BrowserRouter } from 'react-router-dom';
+
+// Material UI: тема и сброс стилей
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+function Root() {
+  // Состояние темы
+  const [mode, setMode] = useState('light');
+
+  // Создаём тему с нужным режимом
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
+
+  // Функция переключения темы
+  const toggleTheme = () => {
+    setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    // Подключаем Redux
+    <Provider store={store}>
+      {/* Подключаем маршрутизацию */}
+      <BrowserRouter>
+        {/* Подключаем тему Material UI */}
+        <ThemeProvider theme={theme}>
+          {/* Сброс базовых стилей */}
+          <CssBaseline />
+          {/* Передаём в App функцию переключения темы и текущий режим */}
+          <App toggleTheme={toggleTheme} mode={mode} />
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(<Root />);
